@@ -40,12 +40,13 @@ button{font:inherit;cursor:pointer;touch-action:manipulation}
 .choices{display:grid;gap:10px}
 .choice{border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left;padding:15px 14px;min-height:50px;font-size:16px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:4px}
 .mfrac{display:inline-flex;align-items:center;vertical-align:middle;font-weight:800;margin:0 2px}
-.mfrac .whole{font-size:1.05em;margin-right:3px}
-.mfrac .frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:.82em}
+.mfrac .whole{font-size:1em;margin-right:3px;line-height:1}
+.mfrac .frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;font-size:1em}
 .mfrac .frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px}
 .mfrac .frac .den{padding:1px 3px 0}
 .choice:disabled{opacity:1;cursor:default}
 .choice.selected{border-color:var(--blue);background:var(--sky);color:var(--navy)}
+.choice.wrong{border-color:var(--err);background:#fef2f2;color:var(--err)}
 .feedback{border-radius:12px;padding:13px;margin-top:12px;background:#edf7ee;color:#245d34;font-size:14px;line-height:1.55;word-break:keep-all}
 label{display:block;font-size:13px;font-weight:750;margin:13px 0 6px}
 input,select{width:100%;padding:13px;border:1px solid #cbd7e6;border-radius:12px;font:inherit;font-size:16px;background:white;color:var(--ink);appearance:none;-webkit-appearance:none}
@@ -290,6 +291,7 @@ function answer(i){
   document.querySelectorAll(".choice").forEach((b,j)=>{
     b.disabled=true;
     if(j===q[5])b.classList.add("selected");
+    else if(j===i)b.classList.add("wrong");
   });
   if(i===q[5]){
     correct++;
