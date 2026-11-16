@@ -24,8 +24,9 @@ html,body{margin:0;padding:0;overflow-x:hidden;background:#f4f7fb;color:var(--in
 .step{color:var(--blue);font-size:12px;font-weight:800;letter-spacing:1px}
 .card h2{font-size:21px;margin:6px 0 8px;word-break:keep-all}
 .desc{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 15px;word-break:keep-all}
-.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.grade{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px 4px;min-height:48px;font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.grades{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.grade{grid-column:span 2;border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px 4px;min-height:48px;font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.grade:nth-child(1),.grade:nth-child(2),.grade:nth-child(6),.grade:nth-child(7){grid-column:span 3}
 .grade.active{background:var(--navy);color:white;border-color:var(--navy)}
 button{font:inherit;cursor:pointer;touch-action:manipulation}
 .primary{background:var(--blue);color:white;border:0;border-radius:13px;padding:15px 18px;min-height:50px;font-size:16px;font-weight:800;width:100%;margin-top:12px;transition:opacity .15s}
