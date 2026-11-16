@@ -34,6 +34,8 @@ button{font:inherit;cursor:pointer;touch-action:manipulation}
 .hidden{display:none!important}
 .qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;font-weight:600}
 .question{font-size:21px;line-height:1.5;font-weight:800;margin:18px 0;word-break:keep-all}
+.qfig{margin:0 0 18px;padding:16px 12px 10px;background:#f8fafd;border:1px solid var(--line);border-radius:14px;text-align:center}
+.qfig svg{max-width:280px;width:100%;height:auto;display:block;margin:0 auto}
 .choices{display:grid;gap:10px}
 .choice{border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left;padding:15px 14px;min-height:50px;font-size:16px;font-weight:700;color:var(--ink)}
 .choice:disabled{opacity:1;cursor:default}
@@ -69,7 +71,7 @@ input.invalid{border-color:var(--err);outline-color:#f8d7da}
 <body><main class="wrap">
 <header class="top"><div class="brand">CMS MATH · GWANAK</div><h1>수학 실력,<br>지금 도전해봐!</h1><p>학년별 수학퀴즈를 풀고 정답을 맞히면<br>CMS 관악 학원에서 문화상품권을 받아가세요.</p><span class="pill">초등 5학년 · 초등 6학년 · 중1~중3</span></header>
 <section class="card" id="gradeCard"><div class="step">STEP 01</div><h2>학년을 선택하세요</h2><p class="desc">현재 학교 학년을 선택하면 해당 학년 퀴즈가 시작됩니다.</p><div class="grades" id="grades"></div><button class="primary" id="start" type="button">퀴즈 시작하기</button></section>
-<section class="card hidden" id="quizCard"><div class="qmeta"><span id="gradeLabel"></span><span id="progress"></span></div><h2 class="question" id="question"></h2><div class="choices" id="choices"></div><div class="feedback hidden" id="feedback"></div><button class="primary hidden" id="next" type="button">다음 문제</button></section>
+<section class="card hidden" id="quizCard"><div class="qmeta"><span id="gradeLabel"></span><span id="progress"></span></div><h2 class="question" id="question"></h2><div class="qfig hidden" id="qfig"></div><div class="choices" id="choices"></div><div class="feedback hidden" id="feedback"></div><button class="primary hidden" id="next" type="button">다음 문제</button></section>
 <section class="card hidden" id="leadCard"><div class="step">STEP 03</div><h2>정답입니다! 🎉</h2><p class="desc">이벤트 참여 정보를 입력하고 학원에 방문해 문화상품권을 받아가세요.</p>
 <form id="leadForm" novalidate>
 <label for="student">학생 이름</label><input id="student" name="student" maxlength="30" autocomplete="name" placeholder="학생 이름을 입력하세요" required>
@@ -149,10 +151,20 @@ function resolveFormEndpoint() {
   return { url: base, entries };
 }
 
+const RECT_11_6_SVG = `<svg viewBox="0 0 310 185" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="가로 11cm, 세로 6cm인 직사각형">
+  <rect x="24" y="18" width="196" height="106" fill="#d8e8fa" stroke="#334155" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M 24 124 Q 72 154 88 154" fill="none" stroke="#8ab8c7" stroke-width="1.8" stroke-dasharray="4 3"/>
+  <path d="M 156 154 Q 172 154 220 124" fill="none" stroke="#8ab8c7" stroke-width="1.8" stroke-dasharray="4 3"/>
+  <text x="122" y="162" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="23" fill="#1e293b">11 cm</text>
+  <path d="M 220 18 Q 248 40 248 56" fill="none" stroke="#8ab8c7" stroke-width="1.8" stroke-dasharray="4 3"/>
+  <path d="M 248 88 Q 248 104 220 124" fill="none" stroke="#8ab8c7" stroke-width="1.8" stroke-dasharray="4 3"/>
+  <text x="262" y="79" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="23" fill="#1e293b">6 cm</text>
+</svg>`;
+
 const BANK={
 "초5":[
-["분수 3/4와 2/3 중 더 큰 수는?","3/4","2/3","같다","비교할 수 없다",0,"통분하면 9/12와 8/12입니다."],
-["직사각형의 가로가 8cm, 세로가 5cm일 때 넓이는?","13㎠","26㎠","40㎠","80㎠",2,"넓이는 가로×세로이므로 8×5=40㎠입니다."],
+["6과 8의 최소공배수는?","12","16","24","48",2,"6=2×3, 8=2³이므로 최소공배수는 24입니다."],
+["직사각형의 넓이를 구하세요.","17㎠","34㎠","66㎠","72㎠",2,"직사각형의 넓이는 (가로)×(세로)이므로 11×6=66㎠입니다.",RECT_11_6_SVG],
 ["0.6을 분수로 나타내면?","3/5","6/5","1/6","5/3",0,"0.6은 6/10이고 약분하면 3/5입니다."]
 ],
 "초6":[
@@ -208,6 +220,13 @@ function render(){
   $("gradeLabel").textContent=grade+" 수학퀴즈";
   $("progress").textContent=(idx+1)+" / "+BANK[grade].length;
   $("question").textContent=q[0];
+  if(q[7]){
+    $("qfig").innerHTML=q[7];
+    $("qfig").classList.remove("hidden");
+  }else{
+    $("qfig").innerHTML="";
+    $("qfig").classList.add("hidden");
+  }
   $("choices").innerHTML="";
   $("feedback").classList.add("hidden");
   $("next").classList.add("hidden");
@@ -394,3 +413,4 @@ $("leadForm").onsubmit=async e=>{
   }
 };
 </script></body></html>
+
