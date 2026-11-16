@@ -188,6 +188,18 @@ const CIRCLE_RATIO_SVG = `<svg viewBox="0 0 320 170" xmlns="http://www.w3.org/20
   <rect x="268" y="64" width="40" height="40" fill="#ffffff" stroke="#333" stroke-width="1.4"/>
 </svg>`;
 
+const PARALLELOGRAM_SVG = `<svg viewBox="0 0 320 185" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="평행사변형 ABCD 내부의 점 P와 색칠된 삼각형 PAB, PCD">
+  <polygon points="86,24 282,24 234,158 38,158" fill="#ffffff" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+  <polygon points="86,24 185,68 38,158" fill="#dff0d2" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/>
+  <polygon points="282,24 185,68 234,158" fill="#dff0d2" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/>
+  <polygon points="86,24 282,24 234,158 38,158" fill="none" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+  <text x="68" y="29" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25" fill="#111">A</text>
+  <text x="301" y="29" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25" fill="#111">D</text>
+  <text x="20" y="168" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25" fill="#111">B</text>
+  <text x="253" y="168" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25" fill="#111">C</text>
+  <text x="179" y="99" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25" fill="#111">P</text>
+</svg>`;
+
 function mfrac(w, n, d) {
   return `<span class="mfrac">${w ? `<span class="whole">${w}</span>` : ""}<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span></span>`;
 }
@@ -211,7 +223,7 @@ const BANK={
 "중2":[
 ["3x − 5 = 16일 때 x는?","5","6","7","8",2,"양변에 5를 더하고 3으로 나누면 x=7입니다."],
 ["두 점 (1,2), (3,6)을 지나는 직선의 기울기는?","1","2","3","4",1,"기울기는 (6−2)/(3−1)=4/2=2입니다."],
-["직각삼각형의 두 예각 중 하나가 35°이면 다른 예각은?","45°","55°","65°","75°",1,"두 예각의 합은 90°이므로 90−35=55°입니다."]
+["다음 그림과 같은 평행사변형 ABCD의 넓이가 70㎠일 때, 색칠한 부분의 넓이를 구하시오.","25㎠","30㎠","35㎠","40㎠",2,"평행사변형 내부의 한 점 P에 대하여 △PAB+△PCD의 넓이는 전체 평행사변형 넓이의 절반이므로 70÷2=35㎠입니다.",PARALLELOGRAM_SVG]
 ],
 "중3":[
 ["x² − 5x + 6 = 0의 두 근의 합은?","−6","−5","5","6",2,"근과 계수의 관계에서 두 근의 합은 −(−5)/1=5입니다."],
