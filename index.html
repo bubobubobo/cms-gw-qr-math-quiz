@@ -46,10 +46,11 @@ button{font:inherit;cursor:pointer;touch-action:manipulation}
 .mfrac .frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;font-size:1em}
 .mfrac .frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px}
 .mfrac .frac .den{padding:1px 3px 0}
-.mroot{display:inline-flex;align-items:baseline;margin:0 1px;line-height:1}
-.mroot .ridx{font-size:.65em;line-height:1;position:relative;top:-.55em;margin-right:-.18em;font-weight:800}
-.mroot .rsym{font-size:1.05em;line-height:1;margin-right:-.06em;font-family:system-ui,-apple-system,sans-serif}
-.mroot .rad{border-top:1.6px solid currentColor;padding:1px 2px 0 1px;line-height:1.05}
+.mroot{display:inline-flex;align-items:baseline;vertical-align:baseline;margin:0 1px}
+.mroot .ridx{font-size:.65em;line-height:1;position:relative;top:-.58em;margin-right:-.18em;font-weight:800}
+.mroot .rwrap{display:inline-flex;align-items:baseline}
+.mroot .rleg{width:.58em;height:1.18em;align-self:stretch;flex-shrink:0;overflow:visible}
+.mroot .rad{border-top:1.8px solid currentColor;padding:.12em .16em 0 .06em;line-height:1.08}
 .choice:disabled{opacity:1;cursor:default}
 .choice.selected{border-color:var(--blue);background:var(--sky);color:var(--navy)}
 .choice.wrong{border-color:var(--err);background:#fef2f2;color:var(--err)}
@@ -212,7 +213,7 @@ function mfrac(w, n, d) {
 }
 
 function mroot(rad, idx) {
-  return `<span class="mroot">${idx ? `<span class="ridx">${idx}</span>` : ""}<span class="rsym">√</span><span class="rad">${rad}</span></span>`;
+  return `<span class="mroot">${idx ? `<span class="ridx">${idx}</span>` : ""}<span class="rwrap"><svg class="rleg" viewBox="0 0 12 22" preserveAspectRatio="none" aria-hidden="true"><path d="M 1 13.5 L 3.8 12.2 L 7 20.5 L 11.4 0.9 L 12.5 0.9" fill="none" stroke="currentColor" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="rad">${rad}</span></span></span>`;
 }
 
 const BANK={
