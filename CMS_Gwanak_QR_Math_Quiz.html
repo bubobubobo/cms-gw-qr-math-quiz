@@ -35,9 +35,14 @@ button{font:inherit;cursor:pointer;touch-action:manipulation}
 .qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;font-weight:600}
 .question{font-size:21px;line-height:1.5;font-weight:800;margin:18px 0;word-break:keep-all}
 .qfig{margin:0 0 18px;padding:16px 12px 10px;background:#f8fafd;border:1px solid var(--line);border-radius:14px;text-align:center}
-.qfig svg{max-width:280px;width:100%;height:auto;display:block;margin:0 auto}
+.qfig svg{max-width:300px;width:100%;height:auto;display:block;margin:0 auto}
 .choices{display:grid;gap:10px}
-.choice{border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left;padding:15px 14px;min-height:50px;font-size:16px;font-weight:700;color:var(--ink)}
+.choice{border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left;padding:15px 14px;min-height:50px;font-size:16px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:4px}
+.mfrac{display:inline-flex;align-items:center;vertical-align:middle;font-weight:800;margin:0 2px}
+.mfrac .whole{font-size:1.05em;margin-right:3px}
+.mfrac .frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:.82em}
+.mfrac .frac .num{border-bottom:1.5px solid currentColor;padding:0 3px 1px}
+.mfrac .frac .den{padding:1px 3px 0}
 .choice:disabled{opacity:1;cursor:default}
 .choice.selected{border-color:var(--blue);background:var(--sky);color:var(--navy)}
 .feedback{border-radius:12px;padding:13px;margin-top:12px;background:#edf7ee;color:#245d34;font-size:14px;line-height:1.55;word-break:keep-all}
@@ -161,6 +166,31 @@ const RECT_11_6_SVG = `<svg viewBox="0 0 310 185" xmlns="http://www.w3.org/2000/
   <text x="262" y="79" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="23" fill="#1e293b">6 cm</text>
 </svg>`;
 
+const CIRCLE_RATIO_SVG = `<svg viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="8칸으로 나뉜 원 중 5칸이 색칠된 그림과 비를 나타내는 빈칸">
+  <path d="M88,85 L37.09,34.09 A72,72 0 0,1 88,13 Z" fill="#f9d5de"/>
+  <path d="M88,85 L88,13 A72,72 0 0,1 138.91,34.09 Z" fill="#f9d5de"/>
+  <path d="M88,85 L138.91,34.09 A72,72 0 0,1 160,85 Z" fill="#f9d5de"/>
+  <path d="M88,85 L160,85 A72,72 0 0,1 138.91,135.91 Z" fill="#ffffff"/>
+  <path d="M88,85 L138.91,135.91 A72,72 0 0,1 88,157 Z" fill="#f9d5de"/>
+  <path d="M88,85 L88,157 A72,72 0 0,1 37.09,135.91 Z" fill="#ffffff"/>
+  <path d="M88,85 L37.09,135.91 A72,72 0 0,1 16,85 Z" fill="#f9d5de"/>
+  <path d="M88,85 L16,85 A72,72 0 0,1 37.09,34.09 Z" fill="#ffffff"/>
+  <line x1="16" y1="85" x2="160" y2="85" stroke="#222" stroke-width="1.4" stroke-dasharray="3.5 2.5"/>
+  <line x1="88" y1="13" x2="88" y2="157" stroke="#222" stroke-width="1.4" stroke-dasharray="3.5 2.5"/>
+  <line x1="37.09" y1="34.09" x2="138.91" y2="135.91" stroke="#222" stroke-width="1.4" stroke-dasharray="3.5 2.5"/>
+  <line x1="138.91" y1="34.09" x2="37.09" y2="135.91" stroke="#222" stroke-width="1.4" stroke-dasharray="3.5 2.5"/>
+  <circle cx="88" cy="85" r="72" fill="none" stroke="#222" stroke-width="1.8"/>
+  <polygon points="175,81 187,81 187,76 196,85 187,94 187,89 175,89" fill="#ffffff" stroke="#333" stroke-width="1.3" stroke-linejoin="round"/>
+  <rect x="206" y="64" width="40" height="40" fill="#ffffff" stroke="#333" stroke-width="1.4"/>
+  <circle cx="257" cy="79" r="2.2" fill="#111"/>
+  <circle cx="257" cy="91" r="2.2" fill="#111"/>
+  <rect x="268" y="64" width="40" height="40" fill="#ffffff" stroke="#333" stroke-width="1.4"/>
+</svg>`;
+
+function mfrac(w, n, d) {
+  return `<span class="mfrac">${w ? `<span class="whole">${w}</span>` : ""}<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span></span>`;
+}
+
 const BANK={
 "초5":[
 ["6과 8의 최소공배수는?","12","16","24","48",2,"6=2×3, 8=2³이므로 최소공배수는 24입니다."],
@@ -168,8 +198,8 @@ const BANK={
 ["0.6을 분수로 나타내면?","3/5","6/5","1/6","5/3",0,"0.6은 6/10이고 약분하면 3/5입니다."]
 ],
 "초6":[
-["18과 24의 최대공약수는?","3","6","8","12",1,"18과 24를 모두 나누는 가장 큰 수는 6입니다."],
-["반지름이 4cm인 원의 넓이는? (원주율 3.14)","12.56㎠","25.12㎠","50.24㎠","100.48㎠",2,"원 넓이는 π×반지름²이므로 3.14×16=50.24㎠입니다."],
+["나눗셈의 몫을 대분수로 나타내어 보세요.<br>12 ÷ 5",mfrac(1,2,5),mfrac(2,1,5),mfrac(2,2,5),mfrac(2,3,5),2,`12÷5=${mfrac("",12,5)}=${mfrac(2,2,5)}입니다.`],
+["그림을 보고 전체에 대한 색칠한 부분의 비를 구해보세요.","3 : 8","5 : 3","5 : 8","8 : 5",2,"전체 8칸 중 색칠한 부분은 5칸입니다. '전체에 대한 색칠한 부분의 비'는 전체(8)가 기준량이므로 5 : 8입니다.",CIRCLE_RATIO_SVG],
 ["1.2 ÷ 0.3의 값은?","0.4","4","40","0.04",1,"1.2÷0.3은 12÷3과 같아 4입니다."]
 ],
 "중1":[
@@ -219,7 +249,7 @@ function render(){
   const q=BANK[grade][idx];
   $("gradeLabel").textContent=grade+" 수학퀴즈";
   $("progress").textContent=(idx+1)+" / "+BANK[grade].length;
-  $("question").textContent=q[0];
+  $("question").innerHTML=q[0];
   if(q[7]){
     $("qfig").innerHTML=q[7];
     $("qfig").classList.remove("hidden");
@@ -234,7 +264,7 @@ function render(){
     const b=document.createElement("button");
     b.type="button";
     b.className="choice";
-    b.textContent=["① ","② ","③ ","④ "][i]+txt;
+    b.innerHTML=`<span>${["① ","② ","③ ","④ "][i]}</span><span>${txt}</span>`;
     b.onclick=()=>answer(i);
     $("choices").appendChild(b);
   });
@@ -250,9 +280,9 @@ function answer(i){
   });
   if(i===q[5]){
     correct++;
-    $("feedback").textContent="정답입니다! "+q[6];
+    $("feedback").innerHTML="정답입니다! "+q[6];
   }else{
-    $("feedback").textContent="아쉽지만 정답은 "+q[q[5]+1]+"입니다. "+q[6];
+    $("feedback").innerHTML="아쉽지만 정답은 "+q[q[5]+1]+"입니다. "+q[6];
   }
   $("feedback").classList.remove("hidden");
   const isLast=idx===BANK[grade].length-1;
